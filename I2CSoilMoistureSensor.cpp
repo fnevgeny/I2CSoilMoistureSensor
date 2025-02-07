@@ -72,6 +72,13 @@ unsigned int I2CSoilMoistureSensor::getCapacitance() {
 }
 
 /*----------------------------------------------------------------------*
+ * Check that the sensor is present at the assumed address              *
+ *----------------------------------------------------------------------*/
+bool I2CSoilMoistureSensor::isFound() {
+  return (readI2CRegister8bit(sensorAddress, SOILMOISTURESENSOR_GET_ADDRESS) == sensorAddress);
+}
+
+/*----------------------------------------------------------------------*
  * Change I2C address of the sensor to the provided address (1..127)    *
  * and do a reset after it in order for the new address to become       *
  * effective if second parameter is true.                               *
@@ -85,7 +92,7 @@ bool I2CSoilMoistureSensor::setAddress(int addr, bool reset) {
     delay(1000);
   }
   sensorAddress=addr;
-  return (readI2CRegister8bit(sensorAddress, SOILMOISTURESENSOR_GET_ADDRESS) == addr);
+  return isFound();
 }
 
 /*----------------------------------------------------------------------*
