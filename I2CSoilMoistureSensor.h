@@ -47,6 +47,7 @@ class I2CSoilMoistureSensor {
         void startMeasureLight();
         unsigned int getLight(bool wait = false);
         int getTemperature();
+        float getTemperatureF();
         void resetSensor();
         uint8_t getVersion();
         void sleep();

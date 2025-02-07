@@ -152,6 +152,13 @@ int I2CSoilMoistureSensor::getTemperature() {
 }
 
 /*----------------------------------------------------------------------*
+ * Read the real temperature (no need to divide by 10)                  *
+ *----------------------------------------------------------------------*/
+float I2CSoilMoistureSensor::getTemperatureF() {
+  return getTemperature()/10.0;
+}
+
+/*----------------------------------------------------------------------*
  * Resets sensor. Give the sensor 0.5-1 second time to boot up after    *
  * reset.                                                               *
  *----------------------------------------------------------------------*/
