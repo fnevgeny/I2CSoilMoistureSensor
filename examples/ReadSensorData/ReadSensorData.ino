@@ -9,6 +9,12 @@ void setup() {
 
   sensor.begin(); // reset sensor
   delay(1000); // give some time to boot up
+  if (!sensor.isFound()) {
+    Serial.println("Sensor is not found at the default address!");
+    while (true) {
+      delay(1);
+    }
+  }
   Serial.print("I2C Soil Moisture Sensor Address: ");
   Serial.println(sensor.getAddress(),HEX);
   Serial.print("Sensor Firmware version: ");
