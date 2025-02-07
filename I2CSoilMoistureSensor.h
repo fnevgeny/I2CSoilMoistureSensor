@@ -39,13 +39,14 @@ class I2CSoilMoistureSensor {
         I2CSoilMoistureSensor(uint8_t addr = SOILMOISTURESENSOR_DEFAULT_ADDR);
 
         void begin(bool wait = false);
-        unsigned int getCapacitance();
         bool isFound();
         bool setAddress(int addr, bool reset);
         void changeSensor(int addr, bool wait = false);
         uint8_t getAddress();
+        unsigned int getCapacitance();
         void startMeasureLight();
         unsigned int getLight(bool wait = false);
+        float getMoistureF();
         int getTemperature();
         float getTemperatureF();
         void resetSensor();
@@ -55,6 +56,9 @@ class I2CSoilMoistureSensor {
 
     private:
         int sensorAddress;
+
+        unsigned int capacitanceMin;
+        unsigned int capacitanceMax;
 
         void writeI2CRegister8bit(int addr, int value);
         void writeI2CRegister8bit(int addr, int reg, int value);

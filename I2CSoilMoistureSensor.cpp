@@ -43,7 +43,13 @@
  * Optionally set sensor I2C address if different from default          *
  *----------------------------------------------------------------------*/
 I2CSoilMoistureSensor::I2CSoilMoistureSensor(uint8_t addr) : sensorAddress(addr) {
-  // nothing to do ... Wire.begin needs to be put outside of class
+  // Wire.begin needs to be called outside of class
+
+  // These values are for a 3.3V VCC for air/water at about 20 degrees
+  // Todo: need to adjust depending on VCC and the temperature
+  // See https://www.nature.com/articles/srep13535 for the latter
+  capacitanceMin = 245;
+  capacitanceMax = 560;
 }
   
 /*----------------------------------------------------------------------*
@@ -62,6 +68,13 @@ void I2CSoilMoistureSensor::begin(bool wait) {
 }
 
 /*----------------------------------------------------------------------*
+ * Check that the sensor is present at the assumed address              *
+ *----------------------------------------------------------------------*/
+bool I2CSoilMoistureSensor::isFound() {
+  return (readI2CRegister8bit(sensorAddress, SOILMOISTURESENSOR_GET_ADDRESS) == sensorAddress);
+}
+
+/*----------------------------------------------------------------------*
  * Return measured Soil Moisture Capacitance                            *
  * Moisture is somewhat linear. More moisture will give you higher      *
  * reading. Normally all sensors give about 290 - 310 as value in free  * 
@@ -72,10 +85,23 @@ unsigned int I2CSoilMoistureSensor::getCapacitance() {
 }
 
 /*----------------------------------------------------------------------*
- * Check that the sensor is present at the assumed address              *
+ * Return measured soil moisture as a percentage (0-100)                *
  *----------------------------------------------------------------------*/
-bool I2CSoilMoistureSensor::isFound() {
-  return (readI2CRegister8bit(sensorAddress, SOILMOISTURESENSOR_GET_ADDRESS) == sensorAddress);
+float I2CSoilMoistureSensor::getMoistureF() {
+  float moisture;
+
+  unsigned int C = getCapacitance();
+
+  if (C <= capacitanceMin) {
+    moisture = 0.0;
+  } else
+  if (C >= capacitanceMax) {
+    moisture = 100.0;
+  } else {
+    moisture = 100.0*(C - capacitanceMin)/(capacitanceMax - capacitanceMin);
+  }
+
+  return moisture;
 }
 
 /*----------------------------------------------------------------------*
