@@ -22,23 +22,23 @@
 #define SOILMOISTURESENSOR_DEFAULT_ADDR 0x20
 
 //Soil Moisture Sensor Register Addresses
-#define SOILMOISTURESENSOR_GET_CAPACITANCE 	0x00 // (r) 	2 bytes
-#define SOILMOISTURESENSOR_SET_ADDRESS 		0x01 //	(w) 	1 byte
-#define SOILMOISTURESENSOR_GET_ADDRESS 		0x02 // (r) 	1 byte
-#define SOILMOISTURESENSOR_MEASURE_LIGHT 	0x03 //	(w) 	n/a
-#define SOILMOISTURESENSOR_GET_LIGHT 		0x04 //	(r) 	2 bytes
-#define SOILMOISTURESENSOR_GET_TEMPERATURE	0x05 //	(r) 	2 bytes
-#define SOILMOISTURESENSOR_RESET 			0x06 //	(w) 	n/a
-#define SOILMOISTURESENSOR_GET_VERSION 		0x07 //	(r) 	1 bytes
-#define SOILMOISTURESENSOR_SLEEP	        0x08 // (w)     n/a
-#define SOILMOISTURESENSOR_GET_BUSY	        0x09 // (r)	    1 bytes
+#define SOILMOISTURESENSOR_GET_CAPACITANCE      0x00 // (r)     2 bytes
+#define SOILMOISTURESENSOR_SET_ADDRESS          0x01 // (w)     1 byte
+#define SOILMOISTURESENSOR_GET_ADDRESS          0x02 // (r)     1 byte
+#define SOILMOISTURESENSOR_MEASURE_LIGHT        0x03 // (w)     n/a
+#define SOILMOISTURESENSOR_GET_LIGHT            0x04 // (r)     2 bytes
+#define SOILMOISTURESENSOR_GET_TEMPERATURE      0x05 // (r)     2 bytes
+#define SOILMOISTURESENSOR_RESET                0x06 // (w)     n/a
+#define SOILMOISTURESENSOR_GET_VERSION          0x07 // (r)     1 bytes
+#define SOILMOISTURESENSOR_SLEEP                0x08 // (w)     n/a
+#define SOILMOISTURESENSOR_GET_BUSY             0x09 // (r)     1 byte
 
 
 class I2CSoilMoistureSensor {
     public:
         I2CSoilMoistureSensor(uint8_t addr = SOILMOISTURESENSOR_DEFAULT_ADDR);
 
-		void begin(bool wait = false);
+        void begin(bool wait = false);
         unsigned int getCapacitance();
         bool setAddress(int addr, bool reset);
         void changeSensor(int addr, bool wait = false);
@@ -52,7 +52,7 @@ class I2CSoilMoistureSensor {
         bool isBusy();
 
     private:
-		int sensorAddress;
+        int sensorAddress;
 
         void writeI2CRegister8bit(int addr, int value);
         void writeI2CRegister8bit(int addr, int reg, int value);
